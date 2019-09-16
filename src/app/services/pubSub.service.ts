@@ -31,38 +31,20 @@ export class PubSubService {
 
     // Connect to the pubsub topic
     const topic = await this.pubSub.topic(this.topic);
-    console.log("topic");
-    console.log(topic);
-
-    // // Create the unique subscription
-    // await topic.createSubscription(this.session);
-    // console.log("Created sub");
-
-    // // Delay 2 seconds
-    // await this.delay(2);
 
     // Connect to the subscription
     const subscription = await topic.subscription(this.session);
-    console.log("Got subscription");
 
     // Setup handler
     subscription.on("message", (msg: any) => {
       // Parse the incoming data
       const data = this.getPubSubData(msg);
 
-      // Awk the message
+      // Ack the message
       msg.ack();
 
       // Handoff to callback function
       callback(data);
-    });
-  }
-
-  private delay(seconds: number): Promise<void> {
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        resolve();
-      }, seconds * 1000);
     });
   }
 

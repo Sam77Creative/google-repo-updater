@@ -42,8 +42,6 @@ export class App {
       this.config.topic,
       sessionId,
       (data: IPubSubNotification) => {
-        console.log("DATA");
-        console.log(JSON.stringify(data));
         // Validate the repository
         if (!this.isCorrectRepository(data)) {
           return;
@@ -54,8 +52,6 @@ export class App {
           return;
         }
 
-        console.log("Executing script");
-
         // Execute the script
         this.executeScript();
       }
@@ -63,20 +59,12 @@ export class App {
   }
 
   private isCorrectRepository(data: IPubSubNotification): boolean {
-    console.log("NAME");
-    console.log(data.name);
-
-    console.log("REPO");
-    console.log(this.config.repository);
     return data.name === this.config.repository;
   }
 
   private isCorrectBranch(data: IPubSubNotification): boolean {
     // Cast the ref updates to an array
     const refs = Object.keys(data.refUpdateEvent.refUpdates);
-
-    console.log("REFS");
-    console.log(refs);
 
     // Check if the branch name is in the array
     return refs.find(r => r === this.config.branch) ? true : false;
