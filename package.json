@@ -1,0 +1,26 @@
+{
+  "name": "@77io/google-repo-updater",
+  "version": "1.0.14",
+  "description": "",
+  "main": "lib/bin.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "bin": {
+    "google-repo-updater": "lib/bin.js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Sam Gallagher",
+  "license": "ISC",
+  "dependencies": {
+    "@google-cloud/pubsub": "^0.32.1",
+    "uuid": "^3.3.3",
+    "yargs": "^14.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^12.7.5",
+    "@types/uuid": "^3.4.5"
+  }
+}
