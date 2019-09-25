@@ -47,12 +47,12 @@ export class App {
         for (let config of this.config.configs) {
           // Validate the repository
           if (!this.isCorrectRepository(data, config)) {
-            return;
+            continue;
           }
 
           // Validate the branch
           if (!this.isCorrectBranch(data, config)) {
-            return;
+            continue;
           }
 
           console.log("Executing script for config");
