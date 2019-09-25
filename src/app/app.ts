@@ -1,6 +1,6 @@
 import * as child_process from "child_process";
 import * as uuid from "uuid/v4";
-import { IAppConfig, IPubSubNotification } from "../interfaces";
+import { IAppConfig, IPubSubNotification, IRepoConfig } from "../interfaces";
 import { PubSubService } from "./services/pubSub.service";
 
 export class App {
@@ -37,43 +37,52 @@ export class App {
 
     console.log("Starting subscription...");
 
-    // Setup subscription
-    this.pubSub.subscribe(
-      this.config.topic,
-      sessionId,
-      (data: IPubSubNotification) => {
-        // Validate the repository
-        if (!this.isCorrectRepository(data)) {
-          return;
-        }
+    // Subscribe to each config object
+    for (let config of this.config.configs) {
+      // Setup subscription
+      this.pubSub.subscribe(
+        config.topic,
+        sessionId,
+        (data: IPubSubNotification) => {
+          // Validate the repository
+          if (!this.isCorrectRepository(data, config)) {
+            return;
+          }
 
-        // Validate the branch
-        if (!this.isCorrectBranch(data)) {
-          return;
-        }
+          // Validate the branch
+          if (!this.isCorrectBranch(data, config)) {
+            return;
+          }
 
-        // Execute the script
-        this.executeScript();
-      }
-    );
+          // Execute the script
+          this.executeScript(config);
+        }
+      );
+    }
   }
 
-  private isCorrectRepository(data: IPubSubNotification): boolean {
-    return data.name === this.config.repository;
+  private isCorrectRepository(
+    data: IPubSubNotification,
+    config: IRepoConfig
+  ): boolean {
+    return data.name === config.repository;
   }
 
-  private isCorrectBranch(data: IPubSubNotification): boolean {
+  private isCorrectBranch(
+    data: IPubSubNotification,
+    config: IRepoConfig
+  ): boolean {
     // Cast the ref updates to an array
     const refs = Object.keys(data.refUpdateEvent.refUpdates);
 
     // Check if the branch name is in the array
-    return refs.find(r => r === this.config.branch) ? true : false;
+    return refs.find(r => r === config.branch) ? true : false;
   }
 
-  private executeScript(): void {
+  private executeScript(config: IRepoConfig): void {
     // Execute the attached script
     child_process.exec(
-      `sh ${this.config.shellScript}`,
+      `sh ${config.shellScript}`,
       (error: Error, stdout: string, stderr: string) => {
         if (error) {
           console.log("Eror running shell script");
