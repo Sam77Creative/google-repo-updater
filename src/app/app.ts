@@ -42,6 +42,7 @@ export class App {
       this.config.topic,
       sessionId,
       (data: IPubSubNotification) => {
+        console.log("GOT DATA");
         // Loop through all of the configs
         for (let config of this.config.configs) {
           // Validate the repository
@@ -65,6 +66,7 @@ export class App {
     data: IPubSubNotification,
     config: IRepoConfig
   ): boolean {
+    console.log(data.name);
     return data.name === config.repository;
   }
 
