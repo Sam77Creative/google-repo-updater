@@ -55,6 +55,9 @@ export class App {
             return;
           }
 
+          console.log("Executing script for config");
+          console.log(config);
+
           // Execute the script
           this.executeScript(config);
         }
@@ -66,7 +69,7 @@ export class App {
     data: IPubSubNotification,
     config: IRepoConfig
   ): boolean {
-    console.log(data.name);
+    console.log(data.name + " vs. " + config.repository);
     return data.name === config.repository;
   }
 
