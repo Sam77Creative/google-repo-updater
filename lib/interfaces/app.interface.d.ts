@@ -1,10 +1,10 @@
 export interface IAppConfig {
     projectId: string;
     keyFile: string;
+    topic: string;
     configs: IRepoConfig[];
 }
 export interface IRepoConfig {
-    topic: string;
     repository: string;
     branch: string;
     shellScript: string;

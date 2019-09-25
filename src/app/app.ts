@@ -37,13 +37,13 @@ export class App {
 
     console.log("Starting subscription...");
 
-    // Subscribe to each config object
-    for (let config of this.config.configs) {
-      // Setup subscription
-      this.pubSub.subscribe(
-        config.topic,
-        sessionId,
-        (data: IPubSubNotification) => {
+    // Setup subscription
+    this.pubSub.subscribe(
+      this.config.topic,
+      sessionId,
+      (data: IPubSubNotification) => {
+        // Loop through all of the configs
+        for (let config of this.config.configs) {
           // Validate the repository
           if (!this.isCorrectRepository(data, config)) {
             return;
@@ -57,8 +57,8 @@ export class App {
           // Execute the script
           this.executeScript(config);
         }
-      );
-    }
+      }
+    );
   }
 
   private isCorrectRepository(
