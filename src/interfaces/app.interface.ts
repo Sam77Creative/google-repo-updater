@@ -2,6 +2,7 @@ export interface IAppConfig {
   projectId: string;
   keyFile: string;
   topic: string;
+  subId: string;
   configs: IRepoConfig[];
 }
 

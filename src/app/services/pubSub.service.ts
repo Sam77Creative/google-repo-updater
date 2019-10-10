@@ -6,7 +6,11 @@ export class PubSubService {
   private topic: string;
   private session: string;
 
-  constructor(private keyFile: string, private projectId: string) {
+  constructor(
+    private keyFile: string,
+    private projectId: string,
+    private subId: string
+  ) {
     this.init();
   }
 
@@ -55,7 +59,7 @@ export class PubSubService {
 
   private createSession(id: string, topic: string) {
     this.topic = topic;
-    this.session = "proxy-api-repo";
+    this.session = this.subId;
   }
 
   private init() {

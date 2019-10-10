@@ -108,6 +108,10 @@ export class App {
 
   private init() {
     // Build required services
-    this.pubSub = new PubSubService(this.config.keyFile, this.config.projectId);
+    this.pubSub = new PubSubService(
+      this.config.keyFile,
+      this.config.projectId,
+      this.config.subId
+    );
   }
 }
