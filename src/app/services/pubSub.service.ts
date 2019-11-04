@@ -62,7 +62,7 @@ export class PubSubService {
     this.topic = topic;
 
     // Create a new subscription with google pub sub
-    const sub = uuid();
+    const sub = "sub-" + uuid();
     await this.pubSub.topic(this.topic).createSubscription(sub);
 
     // Set the new subscription
