@@ -22,7 +22,7 @@ export class App {
       console.log("Shutting down...");
 
       // Unsubscribe from pubsub
-      // await this.pubSub.unsubscribe();
+      await this.pubSub.unsubscribe();
 
       // Exit
       process.exit();
