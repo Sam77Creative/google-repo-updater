@@ -21,6 +21,6 @@
   },
   "devDependencies": {
     "@types/node": "^12.7.5",
-    "@types/uuid": "^3.4.5"
+    "@types/uuid": "^3.4.6"
   }
 }

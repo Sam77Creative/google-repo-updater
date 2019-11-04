@@ -1,4 +1,5 @@
 import { PubSub } from "@google-cloud/pubsub";
+import * as uuid from "uuid/v1";
 import { IPubSubNotification } from "../../interfaces";
 
 export class PubSubService {
@@ -31,7 +32,7 @@ export class PubSubService {
     callback: Function
   ): Promise<void> {
     // Create sessionId
-    this.createSession(sessionId, topicName);
+    await this.createSession(sessionId, topicName);
 
     // Connect to the pubsub topic
     const topic = await this.pubSub.topic(this.topic);
@@ -57,9 +58,15 @@ export class PubSubService {
     return JSON.parse(json);
   }
 
-  private createSession(id: string, topic: string) {
+  private async createSession(id: string, topic: string) {
     this.topic = topic;
-    this.session = this.subId;
+
+    // Create a new subscription with google pub sub
+    const sub = uuid();
+    await this.pubSub.topic(this.topic).createSubscription(sub);
+
+    // Set the new subscription
+    this.session = sub;
   }
 
   private init() {
